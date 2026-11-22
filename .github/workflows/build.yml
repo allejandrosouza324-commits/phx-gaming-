@@ -18,17 +18,20 @@ jobs:
 
       - uses: android-actions/setup-android@v3
 
-      - name: Install SDK
+      - name: Install Android SDK
         run: sdkmanager "platforms;android-35" "build-tools;35.0.0"
 
       - uses: gradle/actions/setup-gradle@v4
         with:
           gradle-version: '8.9'
 
-      - name: Build PHX
-        run: gradle assembleDebug
+      - name: Extract PHX
+        run: unzip -o PHX_GAMING_ENGINE_GitHub_Build.zip -d .
+
+      - name: Compile APK
+        run: gradle --no-daemon -p PHX_GAMING_ENGINE assembleDebug
 
       - uses: actions/upload-artifact@v4
         with:
           name: PHX-GAMING-ENGINE
-          path: app/build/outputs/apk/debug/app-debug.apk
+          path: PHX_GAMING_ENGINE/app/build/outputs/apk/debug/app-debug.apk
